@@ -1,0 +1,32 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "enables the default permissions",
+  "platforms": [
+    "linux",
+    "macOS",
+    "windows",
+    "android",
+    "iOS"
+  ],
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "opener:default",
+    "fs:default",
+    "os:default",
+    "upload:default",
+    "core:event:default",
+    "core:window:allow-close",
+    "core:window:allow-minimize",
+    "core:window:allow-toggle-maximize",
+    "core:window:allow-start-dragging",
+    "opener:allow-open-path",
+    "fs:allow-appdata-write-recursive",
+    "fs:allow-download-meta-recursive",
+    "fs:allow-document-meta-recursive",
+    "fs:allow-picture-meta-recursive"
+  ]
+}

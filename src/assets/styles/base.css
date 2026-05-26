@@ -1,0 +1,202 @@
+/**
+ * 项目基础样式
+ *
+ * 浏览器初始化由 UnoCSS presetWind4 的内置 Tailwind v4 reset 负责。
+ * 本文件只保留项目级基础规则：默认边框 token、字体渲染、App/WebView 交互、背景、滚动条、焦点策略和动效偏好。
+ */
+
+/* Wind4 reset 会初始化边框写法；default 层统一把默认边框颜色接回项目的 --border token。 */
+@layer default {
+  *,
+  ::before,
+  ::after,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--un-default-border-color, currentColor);
+  }
+}
+
+@layer base {
+  /* 统一默认 outline 色值，具体焦点形态仍由组件层的 ring / outline 工具类决定。 */
+  * {
+    @apply outline-ring/50;
+  }
+}
+
+@layer zzjtnb {
+  html {
+    scroll-behavior: smooth;
+
+    font-size: 16px;
+    font-feature-settings: "liga" 1, "calt" 1;
+    line-height: 1.6;
+    text-rendering: optimizelegibility;
+    letter-spacing: 0.01em;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    /* PWA 交互增强：禁用系统弹性滚动，避免露出背景 */
+    overscroll-behavior: none;
+
+    color: var(--foreground);
+
+    background-color: var(--background);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+
+    /* 优化长按弹出上下文菜单的行为，更像原生 App */
+    -webkit-touch-callout: none;
+  }
+
+  body::before {
+    pointer-events: none;
+    content: "";
+
+    position: fixed;
+    z-index: -1;
+    inset: 0;
+
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  ::selection {
+    color: var(--background);
+    background: var(--destructive);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .heading {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  strong,
+  b {
+    font-weight: 600;
+    color: var(--foreground);
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 3px solid color-mix(in oklch, var(--primary) 50%, transparent);
+    font-style: italic;
+    color: var(--muted-foreground);
+  }
+
+  code,
+  pre {
+    /* 字体族由 Wind4 reset 继承 --font-mono；这里只调整代码文本在正文中的视觉比例。 */
+    font-size: 0.9em;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    margin: 0;
+    appearance: none;
+  }
+
+  input[type="number"] {
+    appearance: textfield;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    /* opacity 已由 Wind4 reset 归一化；这里只覆盖项目 placeholder 色值。 */
+    color: oklch(50% 0 0deg / 70%);
+  }
+
+  /* 自定义滚动条 */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: color-mix(in oklch, var(--muted) 30%, transparent);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: color-mix(in oklch, var(--muted-foreground) 30%, transparent);
+    transition: background 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklch, var(--primary) 60%, transparent);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background: color-mix(in oklch, var(--primary) 80%, transparent);
+  }
+
+  /* 隐藏滚动条 */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 彻底禁用浏览器默认焦点轮廓，统一交给组件层的 ring / box-shadow 焦点方案。 */
+  :focus-visible {
+    outline: none !important;
+  }
+
+  /*
+   * 全局焦点视觉统一修复方案
+   * 目标：解决 data-slot 组件默认 border 与 ring 叠加产生的“双边框”瑕疵。
+   * 原理：在焦点激活时隐藏组件原生 border，并将 ring 透明度固化为不透明。
+   * 覆盖范围：所有通过 data-slot 标记的交互组件，例如 Input、Button、Switch。
+   */
+  [data-slot]:focus-visible {
+    --un-ring-opacity: 1 !important;
+
+    border-color: transparent !important;
+  }
+
+  /* 骨架屏样式覆盖 - 使用中性灰色 + shimmer 动画 */
+  [data-slot="skeleton"] {
+    background: linear-gradient(
+      90deg,
+      var(--muted) 25%,
+      color-mix(in oklch, var(--muted-foreground) 15%, transparent) 50%,
+      var(--muted) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+
+  @keyframes skeleton-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+
+    100% {
+      background-position: -200% 0;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+packages:
+  - .
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - maplibre-gl
+  - vue-demi
