@@ -1,0 +1,21 @@
+/**
+ * 样式入口文件
+ *
+ * 导入顺序：主题变量 → 项目基础样式 → 安全区 → 动画 → 第三方排版样式。
+ * 浏览器 reset 由 UnoCSS presetWind4 内置 preflight 提供；Web 字体由 UnoCSS presetWebFonts 生成。
+ * CSS layer 顺序由 uno.css 中的 UnoCSS resolved layers 声明，本入口只把项目样式挂到对应 layer。
+ * 已验证当前顺序：fonts → imports → properties → theme → base → preflights → icons → typography → shortcuts → default。
+ */
+
+/* 主题变量先加载；字体变量和 @font-face 由 UnoCSS presetWebFonts 在 uno.css 中生成。 */
+@import "./theme/index.css";
+
+/* 项目基础样式：不承担浏览器 reset，只放项目级默认行为和视觉基线。 */
+@import "./base.css";
+@import "./safe-area.css";
+
+/* 项目动画关键帧。 */
+@import "./animations.css";
+
+/* 第三方富文本样式进入 UnoCSS typography 层，保持低于 shortcuts/default，方便原子类覆盖排版细节。 */
+@import "markstream-vue/index.css" layer(typography);

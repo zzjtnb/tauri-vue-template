@@ -1,0 +1,41 @@
+{
+  // assets 包的 TypeScript 配置只描述本包资源脚本和打包配置的类型检查边界，避免依赖应用侧 tsconfig 规则。
+  "compilerOptions": {
+    // 指定增量类型检查缓存的包内路径；当本包开启 incremental/composite 时，缓存不会泄漏到源码目录。
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
+    // 以最新 ECMAScript 作为类型检查目标；资源脚本运行在当前项目约定的现代 Node / 构建环境中，不在 TypeScript 层做语法降级。
+    "target": "ESNext",
+    // assets 包脚本只需要最新 ECMAScript 标准库类型，不引入 DOM 类型，避免资源处理脚本误用浏览器全局对象。
+    "lib": ["ESNext"],
+    // 强制所有源码按模块处理，避免没有 import/export 的脚本退回全局脚本模式并产生隐式全局变量。
+    "moduleDetection": "force",
+    // 保持 ESM 模块语义，与 package.json 的 type: module 以及 tsdown 构建输出方向一致。
+    "module": "ESNext",
+    // 使用 Bundler 解析模式，匹配 tsdown/Rolldown 对 package.json exports、imports 和扩展名的现代解析规则。
+    "moduleResolution": "Bundler",
+    // assets 包脚本运行在 Node 环境，只暴露 Node 全局类型和标准库类型，避免混入浏览器或测试框架的全局类型。
+    "types": ["node"],
+    // 允许 ESM 导入语句显式写 .ts 扩展，匹配当前资源脚本在源码阶段被直接执行或被构建工具解析的用法。
+    "allowImportingTsExtensions": true,
+    // 开启严格类型检查，避免资源路径、构建输入和脚本参数退化为隐式 any。
+    "strict": true,
+    // 生成声明文件类型信息的检查规则交给 TypeScript 参与校验；实际声明产物由 tsdown 构建阶段输出。
+    "declaration": true,
+    // 为构建阶段声明映射保留类型检查配置，使 dist 声明可以回溯源码；type-check 阶段因 noEmit 不直接写出文件。
+    "declarationMap": true,
+    // type-check 脚本只做类型检查，不直接生成 JavaScript、声明文件或 sourcemap，避免和 tsdown 的构建职责重叠。
+    "noEmit": true,
+    // 保留源码中的 ESM import/export 写法，不让 TypeScript 重写模块边界，保证构建器按原始 ESM 语义处理。
+    "verbatimModuleSyntax": true,
+    // 限制源码只使用 Node 可擦除的 TypeScript 语法，避免直接执行 .ts 脚本时依赖额外转译步骤。
+    "erasableSyntaxOnly": true,
+    // 跳过第三方声明文件内部检查，把类型错误聚焦在 assets 包脚本、配置边界和真实调用契约上。
+    "skipLibCheck": true,
+    // 检查副作用导入是否能被解析，提前暴露路径拼写错误、丢失资源声明或错误的内部引用。
+    "noUncheckedSideEffectImports": true
+  },
+  // 只纳入资源脚本和 tsdown 打包配置，确保包内类型检查覆盖真实入口而不扫描无关文件。
+  "include": ["scripts/**/*.ts", "tsdown.config.ts"],
+  // 排除构建产物和依赖目录，避免类型检查扫描生成文件或第三方包源码造成噪音和性能浪费。
+  "exclude": ["dist", "node_modules"]
+}

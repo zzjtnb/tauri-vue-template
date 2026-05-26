@@ -1,0 +1,23 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": [],
+      "inputs": ["$TURBO_DEFAULT$", ".env", ".env.*", "$TURBO_ROOT$/packages/assets/public/**"],
+      "env": ["VITE_*", "TAURI_ENV_*"],
+      "outputs": ["dist/**", "node_modules/.tmp/**"]
+    },
+    "type-check": {
+      "dependsOn": ["transit"],
+      "outputs": ["node_modules/.tmp/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "preview": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

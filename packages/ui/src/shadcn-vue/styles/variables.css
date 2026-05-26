@@ -1,0 +1,12 @@
+/*
+ * shadcn-vue 包级样式入口。
+ *
+ * components.json 的 tailwind.css 指向这里，确保后续 shadcn-vue CLI 在公共 UI 包内写入样式变量，
+ * 不再把组件库配置散落到 apps/tauri。Tauri 应用仍可在自己的主题 token 中覆盖这些变量。
+ */
+@layer theme {
+  :root,
+  :host {
+    --radius: 0.625rem;
+  }
+}

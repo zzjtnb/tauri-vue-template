@@ -1,0 +1,48 @@
+{
+  "name": "@tauri-vue-template/cli",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tauri Vue Template 工程化命令行工具",
+  "author": "争逐",
+  "license": "MIT",
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "README.md",
+    "dist"
+  ],
+  "engines": {
+    "node": ">=24.16.0"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "type-check": "tsc -p tsconfig.json --noEmit",
+    "format": "node src/workspace/format.ts",
+    "tauri:deps": "node src/tauri/deps.ts",
+    "tauri:sync": "node src/tauri/sync.ts",
+    "tauri:target": "node src/tauri/target.ts",
+    "tauri:release": "node src/tauri/release.ts",
+    "exclude-local": "node src/workspace/exclude-local.ts",
+    "kill-port": "node src/workspace/kill-port.ts"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.4.0",
+    "@tauri-vue-template/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "tsdown": "^0.22.1",
+    "typescript": "~6.0.3"
+  }
+}

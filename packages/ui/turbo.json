@@ -1,0 +1,12 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "outputs": ["dist/**", "node_modules/*.tsbuildinfo"]
+    },
+    "type-check": {
+      "dependsOn": ["transit"],
+      "outputs": ["node_modules/*.tsbuildinfo"]
+    }
+  }
+}

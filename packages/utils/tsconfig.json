@@ -1,0 +1,49 @@
+{
+  // utils 包的 TypeScript 配置只描述通用工具源码和打包配置的类型检查边界，避免依赖应用侧 tsconfig 规则。
+  "compilerOptions": {
+    // 开启增量类型检查，让 tsc 复用上一次语义分析结果；配合 Turbo 缓存时可以减少重复 type-check 成本。
+    "incremental": true,
+    // 把增量类型检查缓存写入包内依赖缓存目录，避免 .tsbuildinfo 出现在源码目录，也方便按包清理缓存。
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
+    // 以最新 ECMAScript 作为类型检查目标；utils 包交给现代构建工具输出，不在 TypeScript 层做语法降级。
+    "target": "ESNext",
+    // utils 包可能被浏览器侧和 Node 侧共同消费，因此保留 ESNext、DOM 和 DOM.Iterable 类型作为公共工具类型边界。
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    // 强制所有源码按模块处理，避免没有 import/export 的文件退回脚本模式并产生隐式全局变量。
+    "moduleDetection": "force",
+    // 保持 ESM 模块语义，与 package.json 的 type: module 以及 tsdown 构建输出方向一致。
+    "module": "ESNext",
+    // 使用 bundler 解析模式，匹配 Vite/tsdown 对 package.json exports、imports 和扩展名的现代解析规则。
+    "moduleResolution": "bundler",
+    // utils 包源码可能在构建脚本或跨环境工具中使用 Node 类型，只暴露 Node 全局类型以避免混入测试框架全局类型。
+    "types": ["node"],
+    // 允许 ESM 导入语句显式写 .ts 扩展，匹配当前源码在构建工具解析下的模块边界。
+    "allowImportingTsExtensions": true,
+    // 开启严格类型检查，避免通用工具的输入、输出和边界条件退化为隐式 any。
+    "strict": true,
+    // 检查 switch 分支是否意外贯穿，避免通用工具中的状态、平台或格式分支遗漏 break/return。
+    "noFallthroughCasesInSwitch": true,
+    // 检查未使用的局部变量，避免公共 API 调整后留下无效实现。
+    "noUnusedLocals": true,
+    // 检查未使用的函数参数，避免工具函数签名和真实实现契约不一致。
+    "noUnusedParameters": true,
+    // 生成声明文件类型信息的检查规则交给 TypeScript 参与校验；实际声明产物由 tsdown 构建阶段输出。
+    "declaration": true,
+    // 为构建阶段声明映射保留类型检查配置，使 dist 声明可以回溯源码；type-check 阶段因 noEmit 不直接写出文件。
+    "declarationMap": true,
+    // type-check 脚本只做类型检查，不直接生成 JavaScript、声明文件或 sourcemap，避免和 tsdown 的构建职责重叠。
+    "noEmit": true,
+    // 保留源码中的 ESM import/export 写法，不让 TypeScript 重写模块边界，保证构建器按原始 ESM 语义处理。
+    "verbatimModuleSyntax": true,
+    // 限制源码只使用可擦除的 TypeScript 语法，避免源码阶段执行或构建器解析时依赖额外语法转译。
+    "erasableSyntaxOnly": true,
+    // 跳过第三方声明文件内部检查，把类型错误聚焦在 utils 包源码、配置边界和真实调用契约上。
+    "skipLibCheck": true,
+    // 检查副作用导入是否能被解析，提前暴露路径拼写错误、丢失资源声明或错误的内部引用。
+    "noUncheckedSideEffectImports": true
+  },
+  // 只纳入工具源码和 tsdown 打包配置，确保包内类型检查覆盖真实入口而不扫描无关文件。
+  "include": ["src/**/*.ts", "tsdown.config.ts"],
+  // 排除构建产物和依赖目录，避免类型检查扫描生成文件或第三方包源码造成噪音和性能浪费。
+  "exclude": ["dist", "node_modules"]
+}

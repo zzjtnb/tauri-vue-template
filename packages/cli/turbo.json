@@ -1,0 +1,12 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "outputs": ["dist/**"]
+    },
+    "type-check": {
+      "dependsOn": ["transit"],
+      "outputs": ["node_modules/.cache/tsconfig.tsbuildinfo"]
+    }
+  }
+}

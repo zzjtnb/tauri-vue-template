@@ -1,0 +1,33 @@
+{
+  "name": "@tauri-vue-template/assets",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared static public assets for workspace apps and Tauri tooling",
+  "author": "争逐",
+  "license": "MIT",
+  "exports": {
+    "./public/*": "./public/*",
+    "./validate": {
+      "types": "./dist/validate.d.ts",
+      "import": "./dist/validate.js",
+      "default": "./dist/validate.js"
+    }
+  },
+  "files": [
+    "dist",
+    "public"
+  ],
+  "engines": {
+    "node": ">=24.16.0"
+  },
+  "scripts": {
+    "build": "node scripts/validate.ts && tsdown",
+    "type-check": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "tsdown": "^0.22.1",
+    "typescript": "~6.0.3"
+  }
+}

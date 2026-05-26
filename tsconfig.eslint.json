@@ -1,0 +1,18 @@
+{
+  // ESLint 专用 tsconfig：只覆盖 ESLint 会解析的根级 TypeScript 配置和工程 CLI 源码。
+  // 应用/公共包源码继续由各自 tsconfig 管理，避免根配置重新聚合所有 workspace 源码。
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // 现有工程脚本仍是 ESM JavaScript；这里允许 ESLint 解析它们。
+    "allowJs": true,
+    // JS 脚本由 ESLint 负责规则检查，不在 TypeScript 里开启 checkJs，避免重复诊断。
+    "checkJs": false
+  },
+  "include": [
+    // 根级 TypeScript 配置文件，例如 eslint.config.ts、stylelint.config.ts、uno.config.ts。
+    "*.config.ts",
+    // 工程脚本统一收敛在 packages/cli。
+    "packages/cli/src/**/*.ts",
+    "packages/cli/tsdown.config.ts"
+  ]
+}

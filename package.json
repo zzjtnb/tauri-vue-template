@@ -1,0 +1,39 @@
+{
+  "name": "tauri-vue-template-workspace",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.5.1+sha512.93f7b57422ea7068257235b4c16eb60762eb68e1dc23723199cc739043ea9be2c4143274a399d8c6defa2b1176226d9ca1c4b63482d6200c1a8fbaa78c1d1485",
+  "description": "Tauri 2 + Vue 3 monorepo starter template",
+  "author": "争逐",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.16.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "type-check": "turbo run type-check",
+    "format": "turbo run format --filter @tauri-vue-template/cli",
+    "preview": "turbo run preview",
+    "clean": "rm -rf node_modules/.tmp node_modules/.cache apps/*/node_modules/.tmp apps/*/node_modules/.cache packages/*/node_modules/.tmp packages/*/node_modules/.cache",
+    "clear": "rm -rf dist node_modules .turbo apps/*/dist apps/*/node_modules apps/*/.turbo packages/*/dist packages/*/node_modules packages/*/.turbo apps/tauri/src-tauri/target",
+    "lint:eslint": "eslint . --fix --cache --cache-location node_modules/.cache/.eslintcache --config eslint.config.ts",
+    "lint:stylelint": "stylelint \"**/*.{css,scss,vue,html}\" --config stylelint.config.ts --fix --cache --cache-location node_modules/.cache/.stylelintcache",
+    "lint:markdownlint": "markdownlint-cli2 --config .markdownlint-cli2.jsonc --fix \"**/*.md\"",
+    "lint": "pnpm lint:eslint && pnpm lint:stylelint && pnpm lint:markdownlint && turbo run lint:rust",
+    "lint:tui": "pnpm lint:eslint && pnpm lint:stylelint && pnpm lint:markdownlint && turbo run lint:rust --ui=tui"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "@vue/tsconfig": "^0.9.1",
+    "eslint": "^10.4.1",
+    "eslint-config-zzjtnb": "^0.0.9",
+    "markdownlint-cli2": "^0.22.1",
+    "stylelint": "^17.12.0",
+    "stylelint-config-zzjtnb": "^0.0.11",
+    "turbo": "latest",
+    "typescript": "~6.0.3",
+    "vue-tsc": "^3.3.3"
+  }
+}

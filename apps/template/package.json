@@ -1,0 +1,53 @@
+{
+  "name": "@tauri-vue-template/template",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Standalone Vue template app with settings and native capability demos",
+  "author": "争逐",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./routes": "./src/index.ts",
+    "./stores": "./src/stores/index.ts"
+  },
+  "engines": {
+    "node": ">=24.16.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "type-check": "vue-tsc --build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "2.8.0",
+    "@tauri-apps/plugin-autostart": "2.5.1",
+    "@tauri-apps/plugin-fs": "2.4.4",
+    "@tauri-apps/plugin-opener": "2.5.2",
+    "@tauri-apps/plugin-os": "2.3.2",
+    "@tauri-apps/plugin-updater": "2.9.0",
+    "@tauri-apps/plugin-upload": "2.3.2",
+    "@tauri-apps/plugin-window-state": "2.4.1",
+    "@tauri-vue-template/theme": "workspace:*",
+    "@tauri-vue-template/ui": "workspace:*",
+    "@tauri-vue-template/utils": "workspace:*",
+    "@vueuse/core": "^14.3.0",
+    "pinia": "^3.0.4",
+    "pinia-plugin-persistedstate": "^4.7.1",
+    "vue": "^3.5.35",
+    "vue-router": "^5.1.0",
+    "vue-sonner": "^2.0.9"
+  },
+  "devDependencies": {
+    "@iconify-json/lucide": "^1.2.111",
+    "@iconify/utils": "^3.1.3",
+    "@tauri-vue-template/assets": "workspace:*",
+    "@unocss/preset-wind4": "^66.7.0",
+    "@vitejs/plugin-vue": "^6.0.7",
+    "sass": "^1.100.0",
+    "unocss": "^66.7.0",
+    "vite": "^8.0.16",
+    "vite-plugin-mock-dev-server": "^2.3.0"
+  }
+}

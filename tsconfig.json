@@ -1,0 +1,56 @@
+{
+  // 根 tsconfig 只约束根级 TypeScript 配置文件，不聚合 apps/* 或 packages/* 源码。
+  // 各 workspace 包继续使用自己的 tsconfig，避免新增包时维护根 references。
+  "compilerOptions": {
+    // 使用 TypeScript 当前最新 ECMAScript 目标，不把工具配置锁定到旧年份。
+    "target": "ESNext",
+    // 根级配置运行在 Node 环境，使用最新 ECMAScript 标准库；DOM 类型由应用/组件包自己声明。
+    "lib": ["ESNext"],
+
+    // 强制所有被纳入的文件按模块处理，避免脚本模式带来的隐式全局变量。
+    "moduleDetection": "force",
+    // 根级配置文件采用 ESM，与根 package.json 的 "type": "module" 保持一致。
+    "module": "ESNext",
+    // 使用 bundler 解析，匹配 Vite、ESLint flat config 和现代 ESM 包导出规则。
+    "moduleResolution": "bundler",
+
+    // 保留根目录 @/* 别名；当前根配置不依赖跨 app 源码，但编辑器和旧根级入口仍可稳定解析。
+    "paths": {
+      // @/* 只指向根 src，不代表 apps/template 或 apps/examples；应用内 @/* 由各自 tsconfig 维护。
+      "@/*": ["./src/*"]
+    },
+
+    // 允许配置文件直接导入 JSON 配置或清单文件。
+    "resolveJsonModule": true,
+    // 根级配置和脚本只需要 Node 全局类型；Vite/Vue 类型由具体 workspace 包声明。
+    "types": ["node"],
+
+    // 允许 TypeScript 配置文件显式导入 .ts 扩展，适配现代 ESM 解析边界。
+    "allowImportingTsExtensions": true,
+    // 根配置必须保持严格类型检查，避免配置文件退化成无类型脚本。
+    "strict": true,
+    // 根配置只做类型检查，不生成 JS、声明文件或 build info 之外的业务产物。
+    "noEmit": true,
+    // 强制文件名大小写一致，避免 macOS 可用但 CI/Linux 失败。
+    "forceConsistentCasingInFileNames": true,
+    // 保留源码中的 ESM import/export 语义，不让 TypeScript 改写模块边界。
+    "verbatimModuleSyntax": true,
+    // 只允许 Node 可擦除的 TypeScript 语法，避免运行配置文件时依赖额外转译器。
+    "erasableSyntaxOnly": true,
+    // 跳过第三方声明文件内部检查，把类型错误聚焦在本仓库配置边界。
+    "skipLibCheck": true,
+    // 禁止无法解析的副作用导入，提前暴露配置文件中的路径错误。
+    "noUncheckedSideEffectImports": true
+  },
+  // 根 tsconfig 只纳入根级 TypeScript 配置文件，例如 eslint/stylelint/uno config。
+  "include": ["*.config.ts"],
+  // 排除所有层级的依赖、构建产物和 Rust target，避免根级类型检查扫描生成目录。
+  "exclude": [
+    // 任意位置的 node_modules 都不参与本仓库根级类型检查。
+    "**/node_modules/**",
+    // 任意位置的 dist 构建产物都不参与根级类型检查。
+    "**/dist/**",
+    // 任意 Tauri 工程下的 Rust target 体积大且不是 TypeScript 输入。
+    "**/src-tauri/target/**"
+  ]
+}

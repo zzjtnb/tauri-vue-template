@@ -1,0 +1,50 @@
+{
+  "name": "@tauri-vue-template/utils",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared framework-agnostic utilities",
+  "author": "争逐",
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./core": {
+      "types": "./src/core/index.ts",
+      "import": "./src/core/index.ts",
+      "default": "./src/core/index.ts"
+    },
+    "./http": {
+      "types": "./src/http/index.ts",
+      "import": "./src/http/index.ts",
+      "default": "./src/http/index.ts"
+    },
+    "./node": {
+      "types": "./src/node/index.ts",
+      "import": "./src/node/index.ts",
+      "default": "./src/node/index.ts"
+    }
+  },
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "README.md",
+    "dist"
+  ],
+  "engines": {
+    "node": ">=24.16.0"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "type-check": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "tsdown": "^0.22.1",
+    "typescript": "~6.0.3"
+  }
+}

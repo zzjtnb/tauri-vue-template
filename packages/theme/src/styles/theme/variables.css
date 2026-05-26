@@ -1,0 +1,16 @@
+/**
+ * 项目派生主题变量
+ *
+ * 字体变量由 uno.config.ts 的 theme.font 统一声明，并由 presetWind4 theme preflight 生成 --font-*。
+ * 本文件只保留不适合由 Wind4 自动生成的项目基础变量和语义别名，避免同名 CSS 变量出现两套来源。
+ */
+@layer zzjtnb {
+  :root,
+  :host {
+    /* 圆角基准值 - UnoCSS theme.radius 与组件圆角等级都基于此变量派生 */
+    --radius: 0.625rem;
+
+    /* Wind4 reset 的默认边框颜色接入当前主题 border token。 */
+    --un-default-border-color: var(--border);
+  }
+}

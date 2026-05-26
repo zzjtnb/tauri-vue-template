@@ -1,0 +1,88 @@
+@layer zzjtnb {
+  :root {
+    /*
+      设备安全区原始值。
+      - 来源：浏览器/WebView 标准 env(safe-area-inset-*)。
+      - 前提：应用 HTML 入口保留 viewport-fit=cover，允许背景穿透系统状态栏和手势区。
+      - 回退：桌面端或不支持安全区的环境会得到 0px。
+    */
+    --safe-top: env(safe-area-inset-top, 0px); /* 顶部：刘海、Dynamic Island、Android 状态栏。 */
+    --safe-right: env(safe-area-inset-right, 0px); /* 右侧：横屏安全区或系统手势区域。 */
+    --safe-bottom: env(safe-area-inset-bottom, 0px); /* 底部：Home Indicator 或手势导航区域。 */
+    --safe-left: env(safe-area-inset-left, 0px); /* 左侧：横屏安全区或系统手势区域。 */
+
+    /*
+      安全区组合 token。
+      - 所有安全区语义类只消费这个组合值，避免布局层和业务文件重复拼接四个方向。
+      - 顺序遵循 CSS inset / padding 简写：top right bottom left。
+    */
+    --safe-area-inset: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+
+    /*
+      布局尺寸变量。
+      - 只表达可视内容尺寸，不包含安全区。
+      - Header/Footer/Sidebar 组合安全区时，应在布局层使用 safe-area 语义类，而不是修改这些尺寸变量。
+    */
+    --header-height: 56px; /* Header 可视内容高度。 */
+    --footer-height: 60px; /* Footer / TabBar 可视内容高度。 */
+    --sidebar-width: 240px; /* 桌面侧边栏标准宽度。 */
+  }
+
+  /*
+    布局尺寸语义类。
+
+    使用场景：
+    - Header / Footer / Sidebar 在布局层统一消费尺寸，不依赖额外工具类配置。
+    - 这些类只映射尺寸变量，不包含安全区、边框、滚动或颜色语义。
+
+    注意：
+    - 安全区避让仍通过 .safe-area-content / .safe-area-inset 组合，不要把安全区加进尺寸变量。
+    - 如需新增布局尺寸，先补变量，再补对应语义类，保持“token + class”同源。
+  */
+  .h-header {
+    height: var(--header-height);
+  }
+
+  .h-footer {
+    height: var(--footer-height);
+  }
+
+  .min-h-footer {
+    min-height: var(--footer-height);
+  }
+
+  .w-sidebar {
+    width: var(--sidebar-width);
+  }
+
+  /*
+    普通内容安全区避让。
+
+    使用场景：
+    - AppLayout 根容器：让普通 flex / 文档流内容避开系统安全区。
+    - overlay 内部内容层：外层背景可以继续 inset-0 穿透系统区域，内层可交互内容用本类避让。
+
+    不适用场景：
+    - 想让整个 fixed / absolute 容器本身不要进入安全区时，用 .safe-area-inset。
+    - 业务页面不要直接手写 env(safe-area-inset-*)；确实需要避让时先通过布局层接入本类。
+  */
+  .safe-area-content {
+    box-sizing: border-box;
+    padding: var(--safe-area-inset);
+  }
+
+  /*
+    脱离普通流的容器边界。
+
+    使用场景：
+    - position: fixed / absolute 的全屏层、抽屉层、Teleport 宿主容器。
+    - 希望“整个容器边界”都限制在安全区内，而不是只给内部内容加 padding。
+
+    注意：
+    - 本类只设置 inset，不设置 position；调用方必须自己声明 fixed 或 absolute。
+    - 如果需要背景穿透但内容安全，外层使用 inset-0，内层使用 .safe-area-content。
+  */
+  .safe-area-inset {
+    inset: var(--safe-area-inset);
+  }
+}

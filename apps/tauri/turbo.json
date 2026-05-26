@@ -1,0 +1,12 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": { "cache": false, "outputs": [] },
+    "type-check": { "cache": false, "outputs": [] },
+    "rust:fmt": { "cache": false },
+    "rust:check": { "cache": false },
+    "rust:clippy": { "cache": false },
+    "rust:test": { "cache": false },
+    "lint:rust": { "cache": false }
+  }
+}

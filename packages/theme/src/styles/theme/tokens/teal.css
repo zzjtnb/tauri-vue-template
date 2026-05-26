@@ -1,0 +1,126 @@
+/**
+ * 青绿色主题
+ *
+ * 颜色格式：OKLCH 函数
+ * 主色调：亮色 oklch(70% 0.12 183deg)，暗色 oklch(74% 0.105 183deg)。
+ * 其它交互、侧边栏、ring 和图表 token 都围绕青绿色主轴派生；亮色实心高亮态使用浅色 foreground。
+ * 上方主题 token 保持 shadcn-vue 兼容；项目自定义语义色统一放在每个明暗主题块底部。
+ */
+
+/* 明亮模式 token */
+.teal {
+  /* --- 基础色 (Base) --- */
+  --background: oklch(98.5% 0.01 183deg); /* 页面背景 */
+  --foreground: oklch(18% 0.04 183deg); /* 主要文字 */
+
+  /* --- 卡片 (Card) --- */
+  --card: oklch(100% 0 0deg); /* 卡片背景 */
+  --card-foreground: oklch(18% 0.04 183deg); /* 卡片文字 */
+
+  /* --- 弹出层 (Popover) --- */
+  --popover: oklch(100% 0 0deg); /* 浮层背景 */
+  --popover-foreground: oklch(18% 0.04 183deg); /* 浮层文字 */
+
+  /* --- 交互色 (Interaction) --- */
+  --primary: oklch(70% 0.12 183deg); /* 主要交互 */
+  --primary-foreground: oklch(98% 0.008 183deg); /* 主按钮文字：实心青绿色底使用浅色前景 */
+  --secondary: oklch(94% 0.032 183deg); /* 次级按钮 */
+  --secondary-foreground: oklch(22% 0.055 183deg); /* 次级文字 */
+
+  /* --- 弱化与强调 (Muted & Accent) --- */
+  --muted: oklch(95.5% 0.02 183deg); /* 柔和背景 */
+  --muted-foreground: oklch(47% 0.044 183deg); /* 辅助文字 */
+  --accent: oklch(92% 0.052 183deg); /* 悬停高亮 */
+  --accent-foreground: oklch(20% 0.055 183deg); /* 悬停文字 */
+
+  /* --- 功能色 (Destructive) --- */
+  --destructive: oklch(57.7% 0.245 27.325deg); /* 危险操作 */
+  --destructive-foreground: oklch(98.5% 0.01 27.325deg); /* 危险操作文字 */
+
+  /* --- 边框与输入 (Border & Input) --- */
+  --border: oklch(89% 0.032 183deg); /* 边框 */
+  --input: oklch(89% 0.032 183deg); /* 输入框边框 */
+  --ring: oklch(70% 0.12 183deg); /* 聚焦环 */
+
+  /* --- 图表 (Charts) --- */
+  --chart-1: oklch(68% 0.17 183deg); /* 图表色1 */
+  --chart-2: oklch(72% 0.18 215deg); /* 图表色2 */
+  --chart-3: oklch(67% 0.22 300deg); /* 图表色3 */
+  --chart-4: oklch(70% 0.2 25deg); /* 图表色4 */
+  --chart-5: oklch(76% 0.18 115deg); /* 图表色5 */
+
+  /* --- 侧边栏 (Sidebar) --- */
+  --sidebar: oklch(96.5% 0.015 183deg); /* 侧边栏背景 */
+  --sidebar-foreground: oklch(18% 0.04 183deg); /* 侧边栏文字 */
+  --sidebar-primary: oklch(70% 0.12 183deg); /* 侧边栏主色 */
+  --sidebar-primary-foreground: oklch(98% 0.008 183deg); /* 侧边栏主色文字：实心青绿色底使用浅色前景 */
+  --sidebar-accent: oklch(93% 0.04 183deg); /* 侧边栏悬停 */
+  --sidebar-accent-foreground: oklch(20% 0.055 183deg); /* 侧边栏悬停文字 */
+  --sidebar-border: oklch(88% 0.032 183deg); /* 侧边栏边框 */
+  --sidebar-ring: oklch(70% 0.12 183deg); /* 侧边栏聚焦 */
+
+  /* --- 项目自定义语义色 (Project Semantic Colors) --- */
+  --success: oklch(62% 0.17 145deg); /* 成功状态 */
+  --success-foreground: oklch(16% 0.035 145deg); /* 成功状态文字 */
+  --warning: oklch(76% 0.16 75deg); /* 警告状态 */
+  --warning-foreground: oklch(22% 0.055 70deg); /* 警告状态文字 */
+}
+
+/* 暗黑模式 token */
+.dark.teal {
+  /* --- 基础色 (Base) --- */
+  --background: oklch(16% 0.035 183deg); /* 页面背景 */
+  --foreground: oklch(97% 0.012 183deg); /* 主要文字 */
+
+  /* --- 卡片 (Card) --- */
+  --card: oklch(22% 0.045 183deg); /* 卡片背景 */
+  --card-foreground: oklch(97% 0.012 183deg); /* 卡片文字 */
+
+  /* --- 弹出层 (Popover) --- */
+  --popover: oklch(22% 0.045 183deg); /* 浮层背景 */
+  --popover-foreground: oklch(97% 0.012 183deg); /* 浮层文字 */
+
+  /* --- 交互色 (Interaction) --- */
+  --primary: oklch(74% 0.105 183deg); /* 主要交互 */
+  --primary-foreground: oklch(16% 0.035 183deg); /* 主按钮文字 */
+  --secondary: oklch(30% 0.055 183deg); /* 次级按钮 */
+  --secondary-foreground: oklch(97% 0.012 183deg); /* 次级文字 */
+
+  /* --- 弱化与强调 (Muted & Accent) --- */
+  --muted: oklch(27% 0.04 183deg); /* 柔和背景 */
+  --muted-foreground: oklch(78% 0.04 183deg); /* 辅助文字 */
+  --accent: oklch(34% 0.065 183deg); /* 悬停高亮 */
+  --accent-foreground: oklch(97% 0.012 183deg); /* 悬停文字 */
+
+  /* --- 功能色 (Destructive) --- */
+  --destructive: oklch(70.4% 0.191 22.216deg); /* 危险操作 */
+  --destructive-foreground: oklch(18% 0.045 22.216deg); /* 危险操作文字 */
+
+  /* --- 边框与输入 (Border & Input) --- */
+  --border: oklch(100% 0 0deg / 10%); /* 边框 */
+  --input: oklch(100% 0 0deg / 15%); /* 输入框边框 */
+  --ring: oklch(74% 0.105 183deg); /* 聚焦环 */
+
+  /* --- 图表 (Charts) --- */
+  --chart-1: oklch(74% 0.14 183deg); /* 图表色1 */
+  --chart-2: oklch(76% 0.15 215deg); /* 图表色2 */
+  --chart-3: oklch(74% 0.18 300deg); /* 图表色3 */
+  --chart-4: oklch(75% 0.17 25deg); /* 图表色4 */
+  --chart-5: oklch(80% 0.15 115deg); /* 图表色5 */
+
+  /* --- 侧边栏 (Sidebar) --- */
+  --sidebar: oklch(14.5% 0.032 183deg); /* 侧边栏背景 */
+  --sidebar-foreground: oklch(97% 0.012 183deg); /* 侧边栏文字 */
+  --sidebar-primary: oklch(74% 0.105 183deg); /* 侧边栏主色 */
+  --sidebar-primary-foreground: oklch(16% 0.035 183deg); /* 侧边栏主色文字 */
+  --sidebar-accent: oklch(31% 0.058 183deg); /* 侧边栏悬停 */
+  --sidebar-accent-foreground: oklch(97% 0.012 183deg); /* 侧边栏悬停文字 */
+  --sidebar-border: oklch(100% 0 0deg / 10%); /* 侧边栏边框 */
+  --sidebar-ring: oklch(74% 0.105 183deg); /* 侧边栏聚焦 */
+
+  /* --- 项目自定义语义色 (Project Semantic Colors) --- */
+  --success: oklch(72% 0.14 145deg); /* 成功状态 */
+  --success-foreground: oklch(16% 0.035 145deg); /* 成功状态文字 */
+  --warning: oklch(82% 0.14 75deg); /* 警告状态 */
+  --warning-foreground: oklch(18% 0.045 70deg); /* 警告状态文字 */
+}

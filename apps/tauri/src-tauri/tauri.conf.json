@@ -1,0 +1,91 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "示例",
+  "version": "0.1.0",
+  "identifier": "com.zzjtnb.examples",
+  "build": {
+    "frontendDist": "../../examples/dist",
+    "devUrl": "http://localhost:3000",
+    "beforeDevCommand": "pnpm --dir ../.. --filter @tauri-vue-template/examples dev",
+    "beforeBuildCommand": "pnpm --dir ../.. --filter @tauri-vue-template/examples build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "示例",
+        "width": 800,
+        "height": 600,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' http://localhost:3000 ws://localhost:1421 https://api.example.com; img-src 'self' asset: http://asset.localhost data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["dmg", "nsis", "deb"],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "10.13",
+      "hardenedRuntime": true,
+      "signingIdentity": null,
+      "providerShortName": null,
+      "entitlements": null,
+      "dmg": {
+        "windowSize": {
+          "width": 660,
+          "height": 400
+        },
+        "appPosition": {
+          "x": 180,
+          "y": 170
+        },
+        "applicationFolderPosition": {
+          "x": 480,
+          "y": 170
+        }
+      }
+    },
+    "windows": {
+      "digestAlgorithm": "sha256",
+      "certificateThumbprint": null,
+      "timestampUrl": "http://timestamp.digicert.com",
+      "tsp": false,
+      "allowDowngrades": false,
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper",
+        "silent": true
+      },
+      "nsis": {
+        "installMode": "currentUser",
+        "displayLanguageSelector": true,
+        "compression": "lzma"
+      },
+      "wix": null,
+      "signCommand": null
+    },
+    "linux": {
+      "deb": {
+        "section": "utils",
+        "priority": "optional"
+      }
+    },
+    "android": {
+      "minSdkVersion": 24,
+      "versionCode": 1000
+    },
+    "iOS": {
+      "minimumSystemVersion": "14.0",
+      "bundleVersion": "1",
+      "developmentTeam": null
+    }
+  }
+}

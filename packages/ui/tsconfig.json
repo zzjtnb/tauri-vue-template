@@ -1,0 +1,37 @@
+{
+  // UI 聚合包复用 Vue 官方 DOM 配置，继承 Vue SFC、DOM 和现代前端项目的基础类型规则，避免重复维护框架默认项。
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    // 开启增量类型检查，让 tsc/vue-tsc 复用上一次语义分析结果；配合 Turbo 缓存时可以减少重复 type-check 成本。
+    "incremental": true,
+    // 把增量类型检查缓存写入包内依赖目录，避免依赖不存在的 .tmp 子目录或把 .tsbuildinfo 写进源码目录。
+    "tsBuildInfoFile": "./node_modules/tsconfig.tsbuildinfo",
+    "paths": {
+      "@ui/*": [
+        "./src/*"
+      ]
+    },
+    // UI 聚合包同时需要 Node 配置类型和 Vite 客户端环境类型，分别覆盖构建配置与 Vue SFC 中的 import.meta 类型。
+    "types": [
+      "node",
+      "vite/client"
+    ],
+    // 开启严格类型检查，避免组件 props、emits、composables 返回值和模块聚合入口退化为隐式 any。
+    "strict": true,
+    // 检查 switch 分支是否意外贯穿，避免组件状态、布局区域或变体分支遗漏 break/return。
+    "noFallthroughCasesInSwitch": true,
+    // 聚合包会类型检查官方脚手架生成的 shadcn-vue 源码；未使用项由各来源包自身规则负责，根 facade 不额外加严。
+    "noUnusedLocals": false,
+    // 聚合包会类型检查官方脚手架生成的 shadcn-vue 源码；未使用项由各来源包自身规则负责，根 facade 不额外加严。
+    "noUnusedParameters": false,
+    // 限制源码只使用可擦除的 TypeScript 语法，避免 Vue/Vite 源码阶段解析时依赖额外 TypeScript 运行时语义。
+    "erasableSyntaxOnly": true,
+    // 检查副作用导入是否能被解析，提前暴露样式入口、组件注册入口或内部路径引用错误。
+    "noUncheckedSideEffectImports": true
+  },
+  // 纳入公共 TypeScript 源码和 Vue SFC；UI 包明确不使用 TSX/JSX。
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ]
+}

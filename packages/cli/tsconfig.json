@@ -1,0 +1,51 @@
+{
+  // CLI 包的 TypeScript 配置只描述本包源码的类型检查边界，不继承仓库根配置，避免 CLI 发布边界隐式依赖仓库内部 tsconfig。
+  "compilerOptions": {
+    // 开启增量类型检查，让 tsc 复用上一次语义分析结果；配合 Turbo 缓存时可以减少重复 type-check 成本。
+    "incremental": true,
+    // CLI 包当前不是 TypeScript Project Reference 的被引用项目，不需要生成可供其它 tsconfig 引用的 composite 构建图。
+    "composite": false,
+    // 把增量类型检查缓存写入包内依赖缓存目录，避免 .tsbuildinfo 出现在源码目录，也方便按包清理缓存。
+    "tsBuildInfoFile": "node_modules/.cache/tsconfig.tsbuildinfo",
+    // 以最新 ECMAScript 作为类型检查目标；CLI 运行环境由 package.json engines 约束，不在 TypeScript 层做语法降级。
+    "target": "ESNext",
+    // CLI 只面向 Node 环境运行，因此只引入最新 ECMAScript 标准库类型，不引入 DOM 类型污染全局命名空间。
+    "lib": ["ESNext"],
+    // 强制所有源码按模块处理，避免没有 import/export 的文件退回脚本模式并产生隐式全局变量。
+    "moduleDetection": "force",
+    // 保持 ESM 模块语义，与 package.json 的 type: module、imports、exports 以及 tsdown 构建输出方向一致。
+    "module": "ESNext",
+    // 使用 Bundler 解析模式，匹配 tsdown/Rolldown 对 package.json exports、imports 和扩展名的现代解析规则。
+    "moduleResolution": "Bundler",
+    // 允许 CLI 源码直接导入 package.json、配置清单等 JSON 文件，并让这些导入参与类型检查。
+    "resolveJsonModule": true,
+    // 启用 package.json#imports 解析，保证本包内的 #/* 私有子路径别名能被 TypeScript 正确识别。
+    "resolvePackageJsonImports": true,
+    // CLI 源码运行在 Node 环境，只暴露 Node 全局类型和标准库类型，避免混入浏览器或测试框架的全局类型。
+    "types": ["node"],
+    // 允许 ESM 导入语句显式写 .ts 扩展，匹配当前 CLI 源码直接通过 Node 执行 TypeScript 文件的用法。
+    "allowImportingTsExtensions": true,
+    // 开启严格类型检查，避免 CLI 参数、文件系统结果、配置对象和外部命令结果退化为隐式 any。
+    "strict": true,
+    // 生成声明文件类型信息的检查规则交给 TypeScript 参与校验；实际声明产物由 tsdown 构建阶段输出。
+    "declaration": true,
+    // 为构建阶段声明映射保留类型检查配置，使 dist 声明可以回溯源码；type-check 阶段因 noEmit 不直接写出文件。
+    "declarationMap": true,
+    // type-check 脚本只做类型检查，不直接生成 JavaScript、声明文件或 sourcemap，避免和 tsdown 的构建职责重叠。
+    "noEmit": true,
+    // 强制导入路径大小写与磁盘文件一致，避免 macOS 本地可用但 CI/Linux 因大小写不一致失败。
+    "forceConsistentCasingInFileNames": true,
+    // 保留源码中的 ESM import/export 写法，不让 TypeScript 重写模块边界，保证构建器按原始 ESM 语义处理。
+    "verbatimModuleSyntax": true,
+    // 限制源码只使用 Node 可擦除的 TypeScript 语法，避免直接执行 .ts CLI 入口时依赖额外转译步骤。
+    "erasableSyntaxOnly": true,
+    // 跳过第三方声明文件内部检查，把类型错误聚焦在 CLI 包源码、配置边界和真实调用契约上。
+    "skipLibCheck": true,
+    // 检查副作用导入是否能被解析，提前暴露路径拼写错误、丢失资源声明或错误的内部引用。
+    "noUncheckedSideEffectImports": true
+  },
+  // 只纳入 CLI 包源码、公共入口和 tsdown 打包配置；旧 vite.config.ts 已删除，因此不再作为检查入口。
+  "include": ["src/**/*.ts", "index.ts", "tsdown.config.ts"],
+  // 排除构建产物和依赖目录，避免类型检查扫描生成文件或第三方包源码造成噪音和性能浪费。
+  "exclude": ["dist", "node_modules"]
+}

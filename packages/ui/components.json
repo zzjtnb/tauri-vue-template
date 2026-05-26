@@ -1,0 +1,26 @@
+{
+  "$schema": "https://shadcn-vue.com/schema.json",
+  "style": "new-york",
+  "font": "nunito-sans",
+  "typescript": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/shadcn-vue/styles/variables.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "rtl": false,
+  "pointer": false,
+  "menuColor": "inverted-translucent",
+  "menuAccent": "bold",
+  "aliases": {
+    "components": "@ui/shadcn-vue",
+    "ui": "@ui/shadcn-vue/ui",
+    "lib": "@ui/shadcn-vue/lib",
+    "utils": "@ui/shadcn-vue/lib/utils",
+    "composables": "@ui/shadcn-vue/composables"
+  },
+  "registries": {}
+}

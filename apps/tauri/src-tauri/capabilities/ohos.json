@@ -1,0 +1,14 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "ohos",
+  "description": "enables core permissions for OpenHarmony builds",
+  "platforms": [
+    "openHarmony"
+  ],
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default"
+  ]
+}

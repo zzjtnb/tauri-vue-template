@@ -1,0 +1,50 @@
+{
+  "name": "@tauri-vue-template/tauri",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tauri 2 cross-platform packager for workspace apps",
+  "author": "争逐",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.16.0"
+  },
+  "scripts": {
+    "build": "pnpm rust:check",
+    "type-check": "pnpm rust:check",
+    "rust:fmt": "cargo fmt --manifest-path src-tauri/Cargo.toml",
+    "rust:check": "cargo check --manifest-path src-tauri/Cargo.toml",
+    "rust:clippy": "cargo clippy --manifest-path src-tauri/Cargo.toml -- -D warnings",
+    "rust:test": "cargo test --manifest-path src-tauri/Cargo.toml",
+    "tauri": "tauri",
+    "tauri:init": "tauri init",
+    "tauri:info": "tauri info",
+    "tauri:icon": "tauri icon ../../packages/assets/public/logo.png",
+    "tauri:signer": "tauri signer",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "android:init": "tauri android init",
+    "android:dev": "tauri android dev",
+    "android:build": "tauri android build",
+    "android:run": "tauri android run",
+    "ios:init": "tauri ios init",
+    "ios:dev": "tauri ios dev",
+    "ios:build": "tauri ios build",
+    "ios:run": "tauri ios run",
+    "mac:dev": "tauri dev",
+    "mac:build": "tauri build --target universal-apple-darwin --bundles dmg",
+    "windows:dev": "tauri dev",
+    "windows:build": "tauri build --target x86_64-pc-windows-msvc --bundles nsis",
+    "linux:dev": "tauri dev",
+    "linux:build": "tauri build --target x86_64-unknown-linux-gnu --bundles deb",
+    "harmony": "cargo tauri ohos",
+    "harmony:init": "cargo tauri ohos init",
+    "harmony:dev": "cargo tauri ohos dev",
+    "harmony:build": "cargo tauri ohos build --debug --target aarch64",
+    "lint:rust": "pnpm rust:fmt && pnpm rust:clippy"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.2",
+    "@tauri-vue-template/assets": "workspace:*"
+  }
+}

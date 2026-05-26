@@ -1,0 +1,47 @@
+/**
+ * 组件交互动画关键帧
+ *
+ * 这些 keyframes 被折叠面板、Accordion、Collapsible 等组件类名引用；
+ * 统一放在项目动画层，避免每个组件重复声明。
+ */
+@layer zzjtnb {
+  @keyframes shadcn-down {
+    from {
+      height: 0;
+    }
+
+    to {
+      height: var(--reka-accordion-content-height);
+    }
+  }
+
+  @keyframes shadcn-up {
+    from {
+      height: var(--reka-accordion-content-height);
+    }
+
+    to {
+      height: 0;
+    }
+  }
+
+  @keyframes shadcn-collapsible-down {
+    from {
+      height: 0;
+    }
+
+    to {
+      height: var(--reka-collapsible-content-height);
+    }
+  }
+
+  @keyframes shadcn-collapsible-up {
+    from {
+      height: var(--reka-collapsible-content-height);
+    }
+
+    to {
+      height: 0;
+    }
+  }
+}
