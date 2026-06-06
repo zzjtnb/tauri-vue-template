@@ -42,23 +42,15 @@ const proxyLog = (() => {
 })()
 
 // Vite 配置：https://cn.vitejs.dev/config
-/**
- * template 是独立模板应用。
- *
- * 边界说明：
- * - 承载模板选择页、模板骨架、设置页、模板 API、Mock 和模板级 Pinia 状态。
- * - 可以作为纯 Web 应用独立运行，也可以被 apps/tauri 通过公共路由入口聚合进多端安装包。
- * - 不包含 src-tauri、原生打包配置或 examples 示例页面，避免模板业务和打包器职责混在一起。
- */
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   // Vite 只会把 VITE_* 暴露到前端；这里读取 mode 对应的 .env，仅用于构建配置本身。
   const env = loadEnv(mode, process.cwd())
 
-  // 和示例应用保持同名调试开关：需要排查 preset、theme、variant、rules 合并结果时写出 resolved config。
+  // UnoCSS 配置调试开关：需要排查 preset、theme、variant、rules 合并结果时写出 resolved config。
   const enableUnoCssConfigDebug = env.VITE_DEBUG_UNOCSS_CONFIG === 'true'
 
   return {
-    // 默认 public 静态资源来自共享 assets 包；模板应用只在需要品牌覆盖时再恢复自己的 public/。
+    // 默认 public 静态资源来自共享 assets 包；应用只在需要品牌覆盖时再恢复自己的 public/。
     publicDir: resolve(process.cwd(), '../../packages/assets/public'),
     resolve: {
       // Vite 8 自动读取 tsconfig paths；workspace 包通过 package.json exports 解析到源码。
@@ -71,36 +63,36 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     css: {
       preprocessorOptions: {
         scss: {
-          // 模板应用消费 theme 包里的全局变量入口，避免在 app 内复制一套主题变量。
+          // 应用消费 theme 包里的全局变量入口，避免在 app 内复制一套主题变量。
           additionalData: `@use "@tauri-vue-template/theme/styles/theme/variables.css" as *;`,
         },
       },
     },
     plugins: [
-      // Vue SFC 编译入口；模板应用页面使用 Composition API 和 <script setup lang="ts">。
+      // Vue SFC 编译入口；应用页面使用 Composition API 和 <script setup lang="ts">。
       vue(),
-      // Mock 服务只在显式启用时注册，避免模板生产构建和真实接口环境混入本地 mock 行为。
+      // Mock 服务只在显式启用时注册，避免生产构建和真实接口环境混入本地 mock 行为。
       env.VITE_MOCK_DEV_SERVER === 'true' && mockDevServerPlugin({
         include: ['**/*.ts'],
         exclude: ['base.ts', '**/types.ts'],
       }),
       UnoCSS({
-        // 保留 UnoCSS 调试面板，便于在模板应用里检查主题、布局和 shadcn-vue 组件最终生成的原子类。
+        // 保留 UnoCSS 调试面板，便于在应用里检查主题、布局和 shadcn-vue 组件最终生成的原子类。
         inspector: true,
-        // 使用全局 CSS 输出，和示例应用保持一致，避免同一组件在两个 app 中层级行为不一致。
+        // 使用全局 CSS 输出，避免同一组件在不同环境中层级行为不一致。
         mode: 'global',
         // 开发期减少 UnoCSS HMR 导致的无样式闪烁；生产构建不会引入额外运行时代码。
         hmrTopLevelAwait: true,
         // DevTools 拉取调试信息时使用浏览器默认 CORS 行为；如需内网调试再单独覆盖。
         fetchMode: 'cors',
-        // 检查 main.ts 是否显式引入 uno.css，防止模板应用缺少原子样式入口。
+        // 检查 main.ts 是否显式引入 uno.css，防止应用缺少原子样式入口。
         checkImport: true,
         // ==================== UnoCSS 插件选项 (PluginOptions) ====================
-        // 模板应用拥有自己的 uno.config.ts，当前内容与示例应用同步，但路径独立，便于后续只扩展模板扫描范围。
+        // 应用拥有自己的 uno.config.ts，路径独立，便于后续只扩展应用扫描范围。
         // 指定配置文件路径；设为 false 可禁用配置文件加载。默认值：自动查找 uno.config.ts。
         configFile: 'uno.config.ts',
         // ==================== UnoCSS 用户配置（继承自 UserConfig） ====================
-        // 保持虚拟模块前缀和示例应用一致，避免类型声明、调试工具和构建产物出现两套约定。
+        // 保持虚拟模块前缀一致，避免类型声明、调试工具和构建产物出现两套约定。
         // 默认值：'__uno'。
         virtualModulePrefix: '__uno',
         configResolved: enableUnoCssConfigDebug
@@ -126,9 +118,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     // 保留终端输出，避免 Vite 清屏盖住类型检查、Mock 代理或 Tauri 聚合调试错误。
     clearScreen: false,
     server: {
-      // template 是模板应用，默认使用 3001；examples 保持 3000 作为演示基准。
+      // 应用开发服务端口，从环境变量读取。
       port: +(env.VITE_APP_PORT || 3001),
-      // 模板入口应稳定，端口被占用时直接失败，避免调试时打开错误应用。
+      // 应用入口应稳定，端口被占用时直接失败，避免调试时打开错误应用。
       strictPort: true,
       // Android / iOS dev 会通过 TAURI_DEV_HOST 指定宿主机地址。
       // 如果有 TAURI_DEV_HOST 就使用它；没有就监听 0.0.0.0（true），允许局域网访问。
@@ -186,7 +178,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       },
     },
     preview: {
-      // 预览端口和开发端口保持一致，方便在同一入口验证模板应用产物。
+      // 预览端口和开发端口保持一致，方便在同一入口验证应用产物。
       port: +(env.VITE_APP_PORT || 3001),
       strictPort: true,
       host: true,
@@ -200,14 +192,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         '@vueuse/core',
       ],
     },
-    // 模板应用会被 Tauri 聚合调试，保留 TAURI_ENV_* 供平台信息透传。
+    // 应用会被 Tauri 聚合调试，保留 TAURI_ENV_* 供平台信息透传。
     envPrefix: ['VITE_', 'TAURI_ENV_*'],
     build: {
-      // 模板页和设置页会形成较大的应用 chunk；提高阈值让日志聚焦真实问题。
+      // 应用页面会形成较大的 chunk；提高阈值让日志聚焦真实问题。
       chunkSizeWarningLimit: 2000,
-      // 关闭压缩体积统计，加快模板应用构建反馈。
+      // 关闭压缩体积统计，加快应用构建反馈。
       reportCompressedSize: false,
-      // 与示例应用保持一致：生产构建使用 Vite 8 / Rolldown 的 Oxc 压缩，非生产保留可读输出。
+      // 生产构建使用 Vite 8 / Rolldown 的 Oxc 压缩，非生产保留可读输出。
       minify: mode === 'production' ? 'oxc' : false,
       // Tauri 调试构建输出 sourcemap，生产构建默认不输出。
       sourcemap: !!process.env.TAURI_ENV_DEBUG,
@@ -251,7 +243,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       },
     },
     define: {
-      // 注入模板应用自身的包信息，供关于页、调试面板或运行时环境展示使用。
+      // 注入应用自身的包信息，供关于页、调试面板或运行时环境展示使用。
       __APP_INFO__: JSON.stringify({
         pkg: { name, version, engines, dependencies, devDependencies },
         buildTimestamp: Date.now(),

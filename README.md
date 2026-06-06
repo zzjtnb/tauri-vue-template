@@ -287,6 +287,12 @@ cp apps/template/.env.example apps/template/.env.development
 └── pnpm-workspace.yaml   # pnpm workspace 包边界
 ```
 
+各应用的详细边界说明请查看各自的 README.md：
+
+- [Template 应用边界](./apps/template/README.md)
+- [Examples 应用边界](./apps/examples/README.md)
+- [Tauri 应用边界](./apps/tauri/README.md)
+
 ## 内置页面
 
 模板应用 `apps/template`：

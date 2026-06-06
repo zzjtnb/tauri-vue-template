@@ -73,6 +73,16 @@ export const pageRoutes: LayoutRouteModule = [
           description: 'SVG Logo 实时编辑和预览',
         },
       },
+      {
+        path: 'mock',
+        name: 'mock',
+        component: () => import('@/views/mock.vue'),
+        meta: {
+          title: 'Mock API 示例',
+          icon: 'i-lucide-database',
+          description: 'Mock API 调用演示',
+        },
+      },
       layoutShowcaseRoute,
     ],
   },
